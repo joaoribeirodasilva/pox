@@ -41,13 +41,15 @@ func (o *Db) Connect() error {
 	)
 
 	o.Conn, err = gorm.Open(mysql.New(mysql.Config{
-		DriverName: "my_mysql_driver",
+		DriverName: "mysql",
 		DSN:        dsn,
 	}), &gorm.Config{})
 
 	if err != nil {
 		return o.logging.Log(logging.LOG_ENTRY_ERROR, "Db:Connect", "database connection error '%s'", err.Error())
 	}
+
+	o.logging.Log(logging.LOG_ENTRY_INFO, "Db:Connect", "database connected at '%s:%d'", o.config.Host, o.config.Port)
 
 	return nil
 }
